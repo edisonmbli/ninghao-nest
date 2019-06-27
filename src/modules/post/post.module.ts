@@ -5,10 +5,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Post } from './post.entity';
 import { AuthModule } from '../auth/auth.module';
 import { PassportModule } from '@nestjs/passport';
+import { Tag } from '../tag/tag.entity';
 
 @Module({
   imports:[
-    TypeOrmModule.forFeature([Post]),
+    TypeOrmModule.forFeature([Post, Tag]),
     AuthModule
   ],
   controllers: [PostController],

@@ -1,6 +1,8 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, ManyToMany } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, ManyToMany, JoinTable } from "typeorm";
 import { User } from "../user/user.entity";
 import { Category } from "../category/category.entity";
+import { Tag } from "../tag/tag.entity";
+
 
 
 @Entity()
@@ -28,4 +30,8 @@ export class Post {
 
     @ManyToOne(type => Category, category => category.posts)
     category: Category;
+
+    @ManyToMany(type => Tag, tag => tag.posts)
+    @JoinTable()
+    tags: Tag[];
 }
