@@ -61,7 +61,7 @@ export class PostService {
     }
 
     async index(options: ListOptionsInterface) {
-        const {categories, tags} = options;
+        const {categories, tags, page, limit, sort, order} = options;
         const queryBuilder = await this.postRepository
             .createQueryBuilder('post'); 
 
@@ -77,7 +77,16 @@ export class PostService {
                 queryBuilder.andWhere('tag.name IN (:...tags)', {tags});
             }
 
-            const entities = queryBuilder.getMany();
+            queryBuilder
+                .take(limit)
+                .skip(limit * ( page - 1));
+
+            queryBuilder
+                .orderBy({
+                    [`post.${sort}`]: order
+                });
+
+            const entities = queryBuilder.getManyAndCount();
             return entities;
     }
 

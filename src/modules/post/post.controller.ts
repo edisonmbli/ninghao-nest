@@ -7,6 +7,7 @@ import { User } from '../../core/decorators/user.decorator';
 import { User as UserEntity} from '../user/user.entity';
 import { ListOptions } from '../../core/decorators/list-options.decorator';
 import { ListOptionsInterface } from '../../core/interfaces/list-options.interface';
+import { TransformInterceptor } from '../../core/interceptors/transform.interceptor';
 
 
 @Controller('posts')
@@ -22,9 +23,9 @@ export class PostController {
     }
 
     @Get()
-    @UseInterceptors(ClassSerializerInterceptor)
+    @UseInterceptors(ClassSerializerInterceptor, TransformInterceptor)
     async index(
-        @ListOptions() options: ListOptionsInterface
+        @ListOptions({ limit: 10, sort: 'updated', order: 'DESC' }) options: ListOptionsInterface
     ) {
         return await this.postService.index(options);
     }
